@@ -1,0 +1,6 @@
+# {{ ansible_managed }}
+
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+{% for acl in pgsql11_acls: %}
+{{ acl }}
+{% endfor %}

@@ -1,0 +1,50 @@
+---
+- name: install postgres repo package
+  yum: name=http://yum.postgresql.org/11/redhat/rhel-{{ ansible_distribution_major_version }}-x86_64/pgdg-centos11-11-2.noarch.rpm state=present
+  tags: ['pgsql11']
+
+- name: install postgres rpm gpg key
+  rpm_key: state=present key=/etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG-11
+  tags: ['pgsql94']
+
+- name: ensure postgres client packages are installed
+  yum: name={{ item }} state=present
+  with_items: "{{ pgsql11_client_packages }}"
+  tags: ['pgsql11']
+
+- name: ensure postgres server packages are installed
+  yum: name=postgresql11-server state=present
+  when: pgsql11_server
+  tags: ['pgsql11']
+
+- name: initialize database
+  command: /usr/pgsql-11/bin/postgresql-11-setup initdb creates=/var/lib/pgsql/11/data/postgresql.conf
+  environment:
+    PATH: "{{ ansible_env.PATH }}:/sbin"
+  when: pgsql11_server
+  tags: ['pgsql11']
+
+- name: place postgres config files
+  template: src=var.lib.pgsql.11.data.{{ item }}.j2 dest=/var/lib/pgsql/11/data/{{ item }} owner=postgres group=postgres mode=0600
+  with_items:
+    - pg_hba.conf
+    - postgresql.conf
+  notify: postgresql-11 restart
+  when: pgsql11_server
+  tags: ['pgsql11']
+
+- name: ensure postgres server is running and enabled
+  service: name=postgresql-11 state=started enabled=true
+  when: pgsql11_server
+  tags: ['pgsql11']
+
+- name: create symlink for pg_config to ensure dependencies build correctly
+  file:
+    src: /usr/pgsql-11/bin/pg_config
+    dest: /usr/bin/pg_config
+    owner: root
+    group: root
+    mode: 0755
+    state: link
+  tags: ['pgsql11']
+

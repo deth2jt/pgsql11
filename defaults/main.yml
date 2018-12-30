@@ -1,0 +1,23 @@
+---
+pgsql11_client_packages:
+  - postgresql11
+  - postgresql11-devel
+  - postgresql11-libs-11
+  - postgresql11-contrib
+
+pgsql94_server: true
+
+pgsql11_acls:
+  - 'local all all peer'
+  - 'host all all 127.0.0.1/32 ident'
+  - 'host all all ::1/128 ident'
+  - 'host all all all password'
+
+pgsql11_listen_addr: localhost
+pgsql11_listen_port: 5432
+pgsql11_max_conns: 100
+pgsql11_shared_buffers: 128MB
+pgsql11_extra_conf: {}
+#max_wal_size = 1GB
+#min_wal_size = 80MB
+
