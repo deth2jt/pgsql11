@@ -5,7 +5,7 @@ pgsql11_client_packages:
   - postgresql11-libs
   - postgresql11-contrib
 
-pgsql94_server: true
+pgsql11_server: true
 
 pgsql11_acls:
   - 'local all all peer'
