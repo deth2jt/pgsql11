@@ -2,7 +2,7 @@
 pgsql11_client_packages:
   - postgresql11
   - postgresql11-devel
-  - postgresql11-libs-11
+  - postgresql11-libs
   - postgresql11-contrib
 
 pgsql94_server: true
