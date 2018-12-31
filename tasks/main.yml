@@ -17,12 +17,22 @@
   when: pgsql11_server
   tags: ['pgsql11']
 
+- name: Remove data folder if exists
+  file:
+    state: absent
+    path: "/var/lib/pgsql/11/data/"
+  when: pgsql11_server
+  tags: ['pgsql11']
+
+
 - name: initialize database
   command: /usr/pgsql-11/bin/postgresql-11-setup initdb creates=/var/lib/pgsql/data/postgresql.conf
   environment:
     PATH: "{{ ansible_env.PATH }}:/sbin"
   when: pgsql11_server
   tags: ['pgsql11']
+
+
 
 - name: place postgres config files
   template: src=var.lib.pgsql.11.data.{{ item }}.j2 dest=/var/lib/pgsql/11/data/{{ item }} owner=postgres group=postgres mode=0600
