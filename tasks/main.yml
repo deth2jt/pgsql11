@@ -18,7 +18,7 @@
   tags: ['pgsql11']
 
 - name: initialize database
-  command: /usr/pgsql-11/bin/postgresql-11-setup initdb creates=/var/lib/pgsql/11/data/postgresql.conf
+  command: /usr/pgsql-11/bin/postgresql-11-setup initdb creates=/var/lib/pgsql/data/postgresql.conf
   environment:
     PATH: "{{ ansible_env.PATH }}:/sbin"
   when: pgsql11_server
