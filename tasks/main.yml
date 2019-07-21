@@ -17,12 +17,12 @@
   when: pgsql11_server
   tags: ['pgsql11']
 
-- name: Remove data folder if exists
-  file:
-    state: absent
-    path: "/var/lib/pgsql/11/data/"
-  when: pgsql11_server
-  tags: ['pgsql11']
+#- name: Remove data folder if exists
+#  file:
+#    state: absent
+#    path: "/var/lib/pgsql/11/data/"
+#  when: pgsql11_server
+#  tags: ['pgsql11']
 
 
 - name: initialize database
